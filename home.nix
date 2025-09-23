@@ -127,10 +127,17 @@
   programs.jujutsu = {
     enable = true;
     ediff = false;
+    settings.git = {
+      push-new-bookmarks = true;
+    };
     settings.user = {
       name = "Rahul Kochar";
       email = "rkochar9@gmail.com";
-      };
+    };
+    settings.signing = {
+      backend = "gpg";
+      behavior = "force";
+    };
   };
 
   programs.neovim = {
