@@ -18,6 +18,8 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    dust
+    file
     sysz
 
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -73,12 +75,15 @@
     EDITOR = "nvim";
   };
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+  programs.bat = {
+    enable = true;
+  };
 
   programs.bash = {
     enable = true;
     shellAliases = {
+      cat = "bat";
+      lsal = "ls -Al";
       vim = "nvim";
     };
   };
@@ -114,13 +119,25 @@
     pinentry.package = pkgs.pinentry-gnome3;
   };
 
+  # Let Home Manager install and manage itself.
+  programs.home-manager = {
+    enable = true;
+  };
+
   programs.jujutsu = {
     enable = true;
     ediff = false;
+    settings.git = {
+      push-new-bookmarks = true;
+    };
     settings.user = {
       name = "Rahul Kochar";
       email = "rkochar9@gmail.com";
-      };
+    };
+    settings.signing = {
+      backend = "gpg";
+      behavior = "force";
+    };
   };
 
   programs.neovim = {
@@ -135,5 +152,9 @@
       vim.opt.number = true
       vim.cmd('colorscheme PaperColorSlim')
     '';
-  }; 
+  };
+
+  programs.ripgrep = {
+    enable = true;
+  };
 }
