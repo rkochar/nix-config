@@ -152,7 +152,7 @@
       vim.opt.number = true
       vim.cmd('colorscheme PaperColorSlim')
     '';
-  }; 
+  };
 
   programs.ripgrep = {
     enable = true;
