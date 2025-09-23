@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
-
-{
+let 
+  shellAliases = {
+    cat = "bat";
+    lsal = "ls -Al";
+    vim = "nvim";
+  };
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "rkochar";
@@ -81,11 +86,7 @@
 
   programs.bash = {
     enable = true;
-    shellAliases = {
-      cat = "bat";
-      lsal = "ls -Al";
-      vim = "nvim";
-    };
+    shellAliases = shellAliases;
   };
 
   programs.fzf = {
