@@ -14,7 +14,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "ms1a";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -80,16 +80,30 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rkochar = {
+    ignoreShellProgramCheck = false;
     isNormalUser = true;
     description = "Rahul Kochar";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
+    packages = with pkgs; [ ];
+    shell = pkgs.zsh;  # https://nixos.wiki/wiki/Command_Shell
   };
+
+  home-manager.users.rkochar = {
+    home = {
+      # This value determines the Home Manager release that your configuration is
+      # compatible with. This helps avoid breakage when a new Home Manager release
+      # introduces backwards incompatible changes.
+      #
+      # You should not change this value, even if you update Home Manager. If you do
+      # want to update the value, then make sure to first check the Home Manager
+      # release notes.
+      stateVersion = "25.05"; # Please read the comment before changing.
+    };
+};
 
   # Install firefox.
   programs.firefox.enable = false;
+  programs.zsh.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -126,5 +140,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-
 }
