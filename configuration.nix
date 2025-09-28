@@ -103,7 +103,9 @@
 
   # Install firefox.
   programs.firefox.enable = false;
+
   programs.zsh.enable = true;
+  fonts.packages = with pkgs; [ meslo-lgs-nf ];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

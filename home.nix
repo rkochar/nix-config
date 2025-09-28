@@ -4,6 +4,8 @@ let
     cat = "bat";
     lsal = "ls -Al";
     vim = "nvim";
+
+    jjl = "jj log -r ::@";
   };
 in {
   home = {
@@ -125,6 +127,35 @@ in {
 
   programs.zsh = {
     enable = true;
+    enableCompletion = true;
+    syntaxHighlighting.enable = true;  # https://github.com/rkochar/zsh-vim-mode?tab=readme-ov-file#installation  # order plugins to avoid conflict but https://github.com/zsh-users/zsh-syntax-highlighting?tab=readme-ov-file#why-must-zsh-syntax-highlightingzsh-be-sourced-at-the-end-of-the-zshrc-file
     shellAliases = shellAliases;
+    history.size = 10000;
+    initContent = "source ~/.p10k.zsh";  # https://discourse.nixos.org/t/how-to-use-powerlevel10k-prompt-with-zsh/41519/13
+    plugins = [
+      {
+  	name = "zsh-autosuggestions";
+	src = pkgs.fetchFromGitHub {
+	  owner = "zsh-users";
+	  repo = "zsh-autosuggestions";
+	  rev = "v0.7.1";
+	  sha256 = "vpTyYq9ZgfgdDsWzjxVAE7FZH4MALMNZIFyEOBLm5Qo=";
+	};
+      }
+      {
+  	name = "zsh-vim-mode";
+	src = pkgs.fetchFromGitHub {
+	  owner = "rkochar";
+	  repo = "zsh-vim-mode";
+	  rev = "v0.0.1";
+	  sha256 = "a+6EWMRY1c1HQpNtJf5InCzU7/RphZjimLdXIXbO6cQ=";
+	};
+      }
+      {
+        name = "powerlevel10k";
+	src = pkgs.zsh-powerlevel10k;
+	file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+    ];
   };
 }

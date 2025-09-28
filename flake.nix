@@ -16,7 +16,6 @@
 	specialArgs = { inherit inputs; }; # allows access to flake inputs in nixos modules
         modules = [ 
 	  ./configuration.nix 
-	  ./hardware-configuration.nix
 	  home-manager.nixosModules.home-manager
 	  (  
 	    { pkgs, ... }: {
