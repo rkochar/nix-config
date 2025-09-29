@@ -13,6 +13,9 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Zen kernel https://nixos.wiki/wiki/Linux_kernel
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
 
   networking.hostName = "ms1a";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
