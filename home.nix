@@ -70,13 +70,34 @@ in {
   programs.git = {
     enable = true;
     extraConfig = {
-      user.useConfigOnly = true;
-      user.name = "Rahul Kochar";
-      user.email = "rkochar9@gmail.com";
-
-      init.defaultBranch = "master";
-      commit.gpgsign = true;
+      user = {
+        useConfigOnly = true;
+        name = "Rahul Kochar";
+        email = "rkochar9@gmail.com";
       };
+      commit.gpgsign = true;
+      init.defaultBranch = "master";
+
+      core = {
+	pager = "delta";
+      };
+
+      interactive = {
+	diffFilter = "delta --color-only";
+      };
+
+      delta = {
+	pager = true;
+	# dark = true;  # Should be auto-detected
+	side-by-side = true;
+	line-numbers = true;
+	navigate = true;  # use n and N
+      };
+
+      merge = {
+	conflictStyle = "zdiff3";
+      };
+    };
   };
 
   programs.gpg = {
