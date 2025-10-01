@@ -4,16 +4,18 @@ let
     cat = "bat";
     lsal = "ls -Al";
     vim = "nvim";
-
-    jjl = "jj log -r ::@";
   };
 in {
   home = {
     username = "rkochar";
     homeDirectory = "/home/rkochar";
     packages = with pkgs; [
+      asn
+      btop
+      delta
       dust
       eza
+      fastfetchMinimal
       file
       sysz
 
@@ -55,8 +57,13 @@ in {
     enable = true;
   };
 
+  programs.fd = {
+    enable = true;
+  };
+
   programs.fzf = {
     enable = true;
+    enableZshIntegration = true;
   };
 
   # https://pickard.cc/posts/git-identity-home-manager/
@@ -123,6 +130,11 @@ in {
 
   programs.ripgrep = {
     enable = true;
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.zsh = {
