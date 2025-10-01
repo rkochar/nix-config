@@ -102,7 +102,7 @@
 };
 
   # Install firefox.
-  programs.firefox.enable = false;
+  programs.firefox.enable = true;
 
   programs.zsh.enable = true;
   fonts.packages = with pkgs; [ meslo-lgs-nf ];
