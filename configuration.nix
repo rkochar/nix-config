@@ -13,6 +13,9 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Zen kernel https://nixos.wiki/wiki/Linux_kernel
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_zen;
 
   networking.hostName = "ms1a";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -25,8 +28,43 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # https://discourse.nixos.org/t/resolvectl-does-not-work-no-service/25912
+  # networking.resolvconf.enable = true;
+  services.resolved.enable = true;
+
+  # Windscribe does not have a nixpkg. Use wireguard.
+  # https://itsfoss.gitlab.io/blog/automatically-connect-to-vpn-on-system-startup-using-systemd/
+  # systemctl --user show-environment
+  # TODO: remove hardcoded path
+  # TODO: apply to some users
+  systemd.services.auto-vpn = {
+    enable = true;
+    restartIfChanged = true;
+    reloadIfChanged = true;
+
+    # installConfig
+    wantedBy = [ "network-online.target" ];
+    
+    unitConfig = {
+      Description = "Setup Windscribe VPN";
+      Requires = [ "network-online.target" "multi-user.target" ];
+      StartLimitInterval = 350;
+    };
+
+    serviceConfig = {
+      Type = "oneshot";
+      # sleep so that the required services are discovered. it is is at least these: "systemd-resolved.service" "dbus-org.freedesktop.resolve1.service" 
+      ExecStart = "/run/current-system/sw/bin/sleep 2 ; ${pkgs.wireguard-tools}/bin/wg-quick up /home/rkochar/nix-config/windscribe.conf";
+      ExecStop = "${pkgs.wireguard-tools}/bin/wg-quick down /home/rkochar/nix-config/windscribe.conf";
+      Restart = "on-failure";
+      RestartSec = 30;
+      StartLimitBurst = 10;
+      RemainAfterExit = "yes";
+    };
+  };
+
   # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Asia/Calcutta";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_IN";
@@ -79,13 +117,15 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.rkochar = {
-    ignoreShellProgramCheck = false;
-    isNormalUser = true;
-    description = "Rahul Kochar";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [ ];
-    shell = pkgs.zsh;  # https://nixos.wiki/wiki/Command_Shell
+  users = {
+    users.rkochar = {
+      ignoreShellProgramCheck = false;
+      isNormalUser = true;
+      description = "Rahul Kochar";
+      extraGroups = [ "networkmanager" "wheel" ];
+      packages = with pkgs; [ ];
+      shell = pkgs.zsh;  # https://nixos.wiki/wiki/Command_Shell
+    };
   };
 
   home-manager.users.rkochar = {
@@ -103,7 +143,9 @@
 
   # Install firefox.
   programs.firefox.enable = false;
+
   programs.zsh.enable = true;
+  fonts.packages = with pkgs; [ meslo-lgs-nf ];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -112,6 +154,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget
+    wireguard-tools
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
