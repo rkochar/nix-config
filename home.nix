@@ -11,19 +11,23 @@ let
     vim = "nvim";
   };
   walkerskip = ".git,node_modules,target,.jj,result";
-in {
+  values = import ./values.nix;
+in rec {
   home = {
-    username = "rkochar";
-    homeDirectory = "/home/rkochar";
+    username = "${values.username}";
+    homeDirectory = "${values.homepath}";
     packages = with pkgs; [
       asn
+      binutils
       btop
       delta
       dust
       eza
       fastfetchMinimal
       file
+      keepassxc  # TODO: gnome has a built-in. needed?
       sysz
+      tradingview
 
       # # It is sometimes useful to fine-tune packages, for example, by applying
       # # overrides. You can do that directly here, just don't forget the
@@ -68,9 +72,30 @@ in {
     enable = true;
   };
 
+  # TODO: hotkey for screenshot. Need to flameshot gui right now.
+  services.flameshot = {
+    enable = true;
+    settings = {
+      General = {
+        showStartupLaunchMessage = false;
+        saveLastRegion = true;
+        allowMultipleGuiInstances = false;
+        copyOnDoubleClick = true;
+        copyPathAfterSave = true;
+        uploadHistoryMax = 25;
+      };
+      Shortcuts = {
+        TYPE_CIRCLECOUNT = "i";
+        TYPE_IMAGEUPLOADER = "Ctrl+u";
+      };
+    };  
+  };
+
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    # keybindings = true;
+    # fuzzyCompletion = true;
   };
 
   # https://pickard.cc/posts/git-identity-home-manager/
@@ -79,8 +104,8 @@ in {
     extraConfig = {
       user = {
         useConfigOnly = true;
-        name = "Rahul Kochar";
-        email = "rkochar9@gmail.com";
+        name = "${values.fullname}";
+        email = "${values.email}";
       };
       commit.gpgsign = true;
       init.defaultBranch = "master";
@@ -133,8 +158,8 @@ in {
       push-new-bookmarks = true;
     };
     settings.user = {
-      name = "Rahul Kochar";
-      email = "rkochar9@gmail.com";
+      name = "${values.fullname}";
+      email = "${values.email}";
     };
     settings.signing = {
       backend = "gpg";
@@ -173,6 +198,12 @@ in {
     history.size = 10000;
     initContent = ''
       source ~/.p10k.zsh  # https://discourse.nixos.org/t/how-to-use-powerlevel10k-prompt-with-zsh/41519/13
+
+      # https://github.com/jeffreytse/zsh-vi-mode/issues/24#issuecomment-783981662
+      zvm_after_init() {
+        source "$(fzf-share)/key-bindings.zsh"
+        source "$(fzf-share)/completion.zsh"
+      }
 
       # TODO: look into toggling -tf and -td
       # Call fzf with opinionated env var https://github.com/junegunn/fzf/pull/3618
@@ -217,6 +248,7 @@ in {
             --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
             --bind 'enter:become($EDITOR {1} +{2})'
       }
+
     '';
     plugins = [
       {
@@ -229,12 +261,18 @@ in {
 	};
       }
       {
-  	name = "zsh-vim-mode";
+          name = "vi-mode";
+          src = pkgs.zsh-vi-mode;
+          file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+      }
+      {
+  	name = "zsh-async";
+	file = "async.zsh";
 	src = pkgs.fetchFromGitHub {
-	  owner = "rkochar";
-	  repo = "zsh-vim-mode";
-	  rev = "v0.0.1";
-	  sha256 = "a+6EWMRY1c1HQpNtJf5InCzU7/RphZjimLdXIXbO6cQ=";
+	  owner = "mafredri";
+	  repo = "zsh-async";
+	  rev = "v1.8.6";
+	  sha256 = "sha256-Js/9vGGAEqcPmQSsumzLfkfwljaFWHJ9sMWOgWDi0NI=";
 	};
       }
       {
