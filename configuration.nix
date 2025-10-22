@@ -64,7 +64,7 @@
   };
 
   # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Asia/Calcutta";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_IN";
@@ -142,7 +142,7 @@
 };
 
   # Install firefox.
-  programs.firefox.enable = true;
+  programs.firefox.enable = false;
 
   programs.zsh.enable = true;
   fonts.packages = with pkgs; [ meslo-lgs-nf ];
