@@ -4,6 +4,10 @@
 
 { config, pkgs, ... }:
 
+let 
+  values = import ./values.nix;
+  # values = builtins.readFile ./values.nix;
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -35,7 +39,7 @@
   # Windscribe does not have a nixpkg. Use wireguard.
   # https://itsfoss.gitlab.io/blog/automatically-connect-to-vpn-on-system-startup-using-systemd/
   # systemctl --user show-environment
-  # TODO: remove hardcoded path
+  # TODO: system service to user service
   # TODO: apply to some users
   systemd.services.auto-vpn = {
     enable = true;
@@ -49,17 +53,23 @@
       Description = "Setup Windscribe VPN";
       Requires = [ "network-online.target" "multi-user.target" ];
       StartLimitInterval = 350;
+      # ConditionUser = "rkochar";
     };
 
     serviceConfig = {
       Type = "oneshot";
       # sleep so that the required services are discovered. it is is at least these: "systemd-resolved.service" "dbus-org.freedesktop.resolve1.service" 
-      ExecStart = "/run/current-system/sw/bin/sleep 2 ; ${pkgs.wireguard-tools}/bin/wg-quick up /home/rkochar/nix-config/windscribe.conf";
-      ExecStop = "${pkgs.wireguard-tools}/bin/wg-quick down /home/rkochar/nix-config/windscribe.conf";
+      ExecStart = "/run/current-system/sw/bin/sleep 2 ; ${pkgs.wireguard-tools}/bin/wg-quick up ${values.nixconfig}/windscribe.conf";
+      ExecStop = "${pkgs.wireguard-tools}/bin/wg-quick down ${values.nixconfig}/windscribe.conf";
       Restart = "on-failure";
       RestartSec = 30;
-      StartLimitBurst = 10;
       RemainAfterExit = "yes";
+
+      # https://wiki.nixos.org/wiki/Systemd/Hardening
+      BindReadOnlyPaths = [
+        "/nix/store"
+      ];
+      PrivateDevices = true;
     };
   };
 
@@ -106,7 +116,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -114,22 +124,34 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.libinput.enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
-    users.rkochar = {
+    users.${values.username} = {
       ignoreShellProgramCheck = false;
       isNormalUser = true;
-      description = "Rahul Kochar";
+      description = "${values.fullname}";
       extraGroups = [ "networkmanager" "wheel" ];
       packages = with pkgs; [ ];
       shell = pkgs.zsh;  # https://nixos.wiki/wiki/Command_Shell
     };
   };
 
-  home-manager.users.rkochar = {
+  home-manager.users.${values.username} = {
     home = {
+      # TODO: for flameshot hotkey
+      # https://discourse.nixos.org/t/nixos-options-to-configure-gnome-keyboard-shortcuts/7275/13
+      # https://discourse.nixos.org/t/assign-a-hotkey/61131
+      # waiting on dconf2nix to add support for dict.
+      # dconf.settings = {
+      #   "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      #     binding = "<Ctrl><Shift>s";
+      #     command = "exec ${pkgs.flameshot}/bin/flameshot gui";
+      #     name = "flameshot";
+      #   };	
+      # };
+
       # This value determines the Home Manager release that your configuration is
       # compatible with. This helps avoid breakage when a new Home Manager release
       # introduces backwards incompatible changes.
@@ -142,7 +164,8 @@
 };
 
   # Install firefox.
-  programs.firefox.enable = false;
+  # TODO: what does rgb need?
+  programs.firefox.enable = true;
 
   programs.zsh.enable = true;
   fonts.packages = with pkgs; [ meslo-lgs-nf ];
@@ -175,6 +198,21 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # https://nixos.wiki/wiki/Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false;
+    settings = {
+      General = {
+        Experimental = true;
+	FastConnectable = false;
+      };
+      Policy = {
+        AutoEnable = true;
+      };
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -10,6 +10,7 @@
       lib = nixpkgs.lib;
       pkgs = nixpkgs.legacyPackages.${system};
       system = "x86_64-linux";
+      values = import ./values.nix;
     in rec {
       nixosConfigurations."ms1a" = lib.nixosSystem {
 	inherit system;
@@ -23,7 +24,7 @@
 	        useGlobalPkgs = true; # makes hm use nixos's pkgs value
 	        useUserPackages = true;
                 extraSpecialArgs = { inherit inputs; }; # allows access to flake inputs in hm modules
-                users.rkochar = import ./home.nix {
+                users.${values.username} = import ./home.nix {
                   inherit pkgs;
 	        };
 	      };
