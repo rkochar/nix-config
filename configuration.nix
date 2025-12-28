@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 { config, lib, pkgs, ... }:
 
 {
@@ -85,9 +81,10 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    neovim
     wget
     libraspberrypi
+    fastfetch
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -117,6 +114,9 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+  };
+
   system.stateVersion = "25.11"; # Did you read the comment?
 }
-
