@@ -7,24 +7,35 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    { nixpkgs, home-manager, ... }:
-    {
+  outputs = inputs@{ nixpkgs, home-manager, ... }:
+    let
+      lib = inputs.nixpkgs.lib;
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
+      system = "aarch64-linux";
+    in rec {
       nixosConfigurations = {
-        wreckerpi = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
+        wreckerpi = lib.nixosSystem {
+	  specialArgs = {
+	    inherit inputs;
+	  };
+
           modules = [
             ./configuration.nix
             ./hardware-configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.wrecker = ./home.nix;
 
-              # Optionally, use home-manager.extraSpecialArgs to pass
-              # arguments to home.nix
-            }
+            home-manager.nixosModules.home-manager {
+              home-manager = {
+	        useGlobalPkgs = true;
+                useUserPackages = true;
+                users.rkochar = ./home.nix;
+                # users.wrecker = ./home.nix;
+
+	        extraSpecialArgs = {
+		  inherit inputs;
+	          username = "rkochar";
+	        };
+	      };
+	    }
           ];
         };
       };
