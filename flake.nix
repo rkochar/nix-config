@@ -2,42 +2,36 @@
   description = "NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
+
+    nixpkgs-stable = {
+      url = "github:nixos/nixpkgs/nixos-25.11";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager-stable = {
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-stable, home-manager, home-manager-stable, ... }:
     let
-      lib = inputs.nixpkgs.lib;
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
-      system = "aarch64-linux";
-    in rec {
-      nixosConfigurations = {
-        wreckerpi = lib.nixosSystem {
-	  specialArgs = {
-	    inherit inputs;
-	  };
-
-          modules = [
-            ./configuration.nix
-            ./hardware-configuration.nix
-
-            home-manager.nixosModules.home-manager {
-              home-manager = {
-	        useGlobalPkgs = true;
-                useUserPackages = true;
-                users.rkochar = ./home.nix;
-                # users.wrecker = ./home.nix;
-
-	        extraSpecialArgs = {
-		  inherit inputs;
-	          username = "rkochar";
-	        };
-	      };
-	    }
-          ];
-        };
+      vars = {
+	user = "rkochar";
       };
+    in {
+      nixosConfigurations = (
+        import ./hosts {
+	  inherit (nixpkgs) lib;
+	  inherit inputs nixpkgs nixpkgs-stable home-manager vars;
+	}
+      );
     };
 }

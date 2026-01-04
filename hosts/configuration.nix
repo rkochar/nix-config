@@ -1,15 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ lib, config, pkgs, stable, inputs, vars, ... }:
 
+let
+in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-
-  # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
-  boot.loader.grub.enable = false;
-  # Enables the generation of /boot/extlinux/extlinux.conf
-  boot.loader.generic-extlinux-compatible.enable = true;
+  imports = (
+    import ./../modules/vcs
+  );
 
   networking.hostName = "wrecker"; # Define your hostname.
 
