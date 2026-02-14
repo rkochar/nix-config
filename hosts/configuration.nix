@@ -4,6 +4,7 @@ let
 in
 {
   imports = (
+    import ./../modules/editor ++
     import ./../modules/vcs
   );
 
@@ -17,7 +18,6 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    neovim
     wget
     fastfetch
     tree

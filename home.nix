@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./modules/editor.nix
     ./modules/vcs.nix
   ];
 
@@ -13,6 +14,7 @@
   };
 
   my.git.enable = true;
+  my.neovim.enable = true;
 
   programs.home-manager.enable = true;
 }
