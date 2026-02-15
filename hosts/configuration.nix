@@ -4,7 +4,7 @@ let
 in
 {
   imports = (
-    import ./../modules/editor ++
+    import ./../modules/shell ++
     import ./../modules/vcs
   );
 
@@ -20,7 +20,6 @@ in
   environment.systemPackages = with pkgs; [
     wget
     fastfetch
-    tree
   ];
 
   nix.settings = {

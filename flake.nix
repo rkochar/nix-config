@@ -24,14 +24,14 @@
   outputs = inputs@{ self, nixpkgs, nixpkgs-stable, home-manager, home-manager-stable, ... }:
     let
       vars = {
-	user = "rkochar";
+	    user = "rkochar";
       };
     in {
       nixosConfigurations = (
         import ./hosts {
-	  inherit (nixpkgs) lib;
-	  inherit inputs nixpkgs nixpkgs-stable home-manager vars;
-	}
+	      inherit (nixpkgs) lib;
+	      inherit inputs nixpkgs nixpkgs-stable home-manager vars;
+	    }
       );
     };
 }
