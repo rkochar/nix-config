@@ -28,55 +28,14 @@ rec {
         shellInit = ''
             # source ~/.p10k.zsh  # https://discourse.nixos.org/t/how-to-use-powerlevel10k-prompt-with-zsh/41519/13
 
+            # TODO: environment variables. sessionVariables appears not to be an option anymore.
+            # source a file with exports?
+            export NIX_CONFIG_PATH="~/nix-config/config"
+
             # https://github.com/jeffreytse/zsh-vi-mode/issues/24#issuecomment-783981662
             zvm_after_init() {
                 source "$(fzf-share)/key-bindings.zsh"
-                    source "$(fzf-share)/completion.zsh"
-            }
-
-            # TODO: look into toggling -tf and -td
-            # Call fzf with opinionated env var https://github.com/junegunn/fzf/pull/3618
-            # can not use programs.fzf.opts because it is not global https://discourse.nixos.org/t/fzf-defaultoptions-not-applied-in-home-manager/59502
-            function f {
-                fzf_default_command_string="fd --strip-cwd-prefix --follow --hidden --walker-skip ${walkerskip} --color=always"
-                    fzf_default_opts_string="--ansi --cycle --multi --smart-case \
-                    --preview '~/nix-config/fzf-preview.bash {}' \
-                    --bind 'focus:transform-header:file --brief {}' \
-                    --prompt 'All> ' \
-                    --header 'CTRL-D: Directories / CTRL-F: Files'
-                    --bind 'ctrl-d:change-prompt(Directories> )+reload(''${fzf_default_command_string} -td)' \
-                    --bind 'ctrl-f:change-prompt(Files> )+reload(''${fzf_default_command_string} -tf)'"
-
-                    FZF_DEFAULT_COMMAND="''${fzf_default_command_string}" FZF_DEFAULT_OPTS="''${fzf_default_opts_string}" command fzf "$@"
-            }
-
-            export FZF_CTRL_T_OPTS="
-                --walker-skip ${walkerskip} \
-                --preview 'bat -n --color=always {}'  \
-                --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-
-            # TODO: default_opts uses fzf-preview.
-            # CTRL-Y to copy the command into clipboard using pbcopy
-            # export FZF_CTRL_R_OPTS="  \
-            #   --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'  \  # TODO: nix does not have pbopy?
-            #   --color header:italic  \
-            #   --header 'Press CTRL-Y to copy command into clipboard'"
-
-            # Print tree structure in the preview window
-            export FZF_ALT_C_OPTS="
-                --walker-skip ${walkerskip} \
-                --preview 'eza --only-dirs --follow-symlinks --show-symlinks --color=always --tree {}'"
-
-            # escape sequence https://discourse.nixos.org/t/need-help-understanding-how-to-escape-special-characters-in-the-list-of-str-type/11389/2
-            function rfv {
-            FZF_DEFAULT_OPTS="" FZF_DEFAULT_COMMAND="" rg --color=always --line-number --no-heading --smart-case "''${''\*:-}" |
-                fzf --ansi \
-                --color "hl:-1:underline,hl+:-1:underline:reverse" \
-                --delimiter : \
-                --walker-skip ${walkerskip} \
-                --preview 'bat --color=always {1} --highlight-line {2}' \
-                --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-                --bind 'enter:become($EDITOR {1} +{2})'
+                source "$(fzf-share)/completion.zsh"
             }
         '';
   # plugins = [
