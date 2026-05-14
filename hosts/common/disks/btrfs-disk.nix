@@ -9,7 +9,7 @@
 {
   disko.devices = {
     disk = {
-      disk0 = {
+      main = {
         type = "disk";
         device = disk;
         content = {
@@ -19,7 +19,7 @@
               priority = 1;
               name = "ESP";
               start = "1M";
-              end = "256M";
+              end = "128M";
               type = "EF00";
               content = {
                 type = "filesystem";

@@ -15,7 +15,10 @@ let
   ) config.sops.secrets."passwords/users/${hostSpec.username}".path;
 in
 {
-  sops.secrets."passwords/users/${hostSpec.username}" = {};
+  # sops.secrets = {
+  #   "passwords/users/${hostSpec.username}" = {};
+  #   neededForUsers = true;
+  # };
   users.mutableUsers = false; # Only allow declarative credentials; Required for password to be set via sops during system activation!
   users.users.${hostSpec.username} = {
     home = "/home/${hostSpec.username}";

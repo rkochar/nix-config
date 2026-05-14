@@ -85,7 +85,7 @@
 
       systemd-boot = {
 	enable = true;
-	configurationLimit = lib.mkDefault 3;
+	configurationLimit = lib.mkDefault 9;
 
 	edk2-uefi-shell = {
 	  enable = true;  # Needed to boot into devices in another disk.
