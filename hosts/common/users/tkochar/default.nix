@@ -22,14 +22,18 @@
 }:
 let
   hostSpec = config.hostSpec;
-  secretsSubPath = "passwords/exampleSecondUser";
+  secondUser = "tkochar";
+  secretsSubPath = "passwords/users/${secondUser}";
 in
 {
   # Decrypt passwords/exampleSecondUser to /run/secrets-for-users/ so it can be used to create the user
-  sops.secrets.${secretsSubPath}.neededForUsers = true;
+  sops.secrets = {
+    sops.secrets."${secretsSubPath}" = {};
+    ${secretsSubPath}.neededForUsers = true;
+  };
   users.mutableUsers = false; # Required for password to be set via sops during system activation!
 
-  users.users.exampleSecondUser = {
+  users.users.${secondUser} = {
     isNormalUser = true;
     hashedPasswordFile = config.sops.secrets.${secretsSubPath}.path;
     shell = pkgs.zsh; # default shell
@@ -48,11 +52,11 @@ in
       inherit pkgs inputs;
       hostSpec = config.hostSpec;
     };
-    users.exampleSecondUser.imports = lib.flatten (
+    users.${secondUser}.imports = lib.flatten (
       lib.optional (!hostSpec.isMinimal) [
         (
           { config, ... }:
-          import (lib.custom.relativeToRoot "home/exampleSecondUser/${hostSpec.hostName}.nix") {
+          import (lib.custom.relativeToRoot "home/${secondUser}/${hostSpec.hostName}.nix") {
             inherit
               pkgs
               inputs

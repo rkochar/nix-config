@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   fonts.fontconfig.enable = true;
-  home.packages = [
-    pkgs.noto-fonts
+  home.packages = with pkgs; [
+    meslo-lgs-nf
   ];
 }

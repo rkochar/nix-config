@@ -19,7 +19,7 @@ in
 
     # FIXME(starter): add/edit as desired
     ./bash.nix
-    ./darwin.nix
+    # ./darwin.nix
     ./direnv.nix
     ./fonts.nix
     ./git.nix

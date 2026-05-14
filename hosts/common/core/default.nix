@@ -1,4 +1,3 @@
-# FIXME(starter): modify this file and the other .nix files in `nix-config/hosts/common/core/` to declare
 # settings that will occur across all hosts
 
 # IMPORTANT: This is used by NixOS and nix-darwin so options must exist in both!
@@ -26,7 +25,7 @@ in
       "modules/hosts/${platform}"
       "hosts/common/core/${platform}.nix"
       "hosts/common/core/sops.nix" # Core because it's used for backups, mail
-      "hosts/common/core/ssh.nix"
+      # "hosts/common/core/ssh.nix"
       #"hosts/common/core/services" # uncomment this line if you add any modules to services directory
       "hosts/common/users/primary"
       "hosts/common/users/primary/${platform}.nix"
@@ -39,8 +38,8 @@ in
   # FIXME(starter): modify the hostSpec options below to define values that are common across all hosts
   # such as the username and handle of the primary user (see also `nix-config/hosts/common/users/primary`)
   hostSpec = {
-    username = "hiro";
-    handle = "hiroprotagonist";
+    username = "rkochar";
+    handle = "rahulkochar";
     # FIXME(starter): modify the attribute sets hostSpec will inherit from your nix-secrets.
     # If you're not using nix-secrets then remove the following six lines below.
     inherit (inputs.nix-secrets)
@@ -56,11 +55,12 @@ in
   # System-wide packages, in case we log in as root
   environment.systemPackages = [ pkgs.openssh ];
 
-  # Force home-manager to use global packages
-  home-manager.useGlobalPkgs = true;
-
-  # If there is a conflict file that is backed up, use this extension
-  home-manager.backupFileExtension = "bk";
+  home-manager = {
+    # Force home-manager to use global packages
+    useGlobalPkgs = true;
+    # If there is a conflict file that is backed up, use this extension
+    backupFileExtension = "bk";
+  };
 
   #
   # ========== Overlays ==========

@@ -19,13 +19,13 @@
               priority = 1;
               name = "ESP";
               start = "1M";
-              end = "512M";
+              end = "256M";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "defaults" ];
+                mountOptions = [ "umask=0077" ];
               };
             };
             root = {
@@ -36,14 +36,19 @@
                 # Subvolumes must set a mountpoint in order to be mounted,
                 # unless their parent is mounted
                 subvolumes = {
-                  "@root" = {
+                  "/rootfs" = {
                     mountpoint = "/";
                     mountOptions = [
                       "compress=zstd"
                       "noatime"
                     ];
                   };
-                  "@nix" = {
+                  # Subvolume name is the same as the mountpoint
+                  "/home" = {
+                    mountOptions = [ "compress=zstd" ];
+                    mountpoint = "/home";
+                  };
+                  "/nix" = {
                     mountpoint = "/nix";
                     mountOptions = [
                       "compress=zstd"

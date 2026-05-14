@@ -1,4 +1,3 @@
-# FIXME(starter): this is an example of how a secondary user called "exampleSecondUser" can be declared at the home-manager level.
 # NOTE that the files here roll up to parent directory that matches the username!
 # Modify the directory name and all instances of `exampleSecondUser` in that directories child files to a real username to
 # make practical use of them.
@@ -25,9 +24,9 @@
   ];
 
   home = {
-    username = lib.mkDefault "exampleSecondUser";
+    username = lib.mkDefault "tkochar";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
-    stateVersion = lib.mkDefault "24.11";
+    stateVersion = lib.mkDefault "25.11";
     sessionPath = [ "$HOME/.local/bin" ];
   };
 
