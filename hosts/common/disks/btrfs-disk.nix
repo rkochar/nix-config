@@ -19,7 +19,7 @@
               priority = 1;
               name = "ESP";
               start = "1M";
-              end = "128M";
+              end = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -55,7 +55,7 @@
                       "noatime"
                     ];
                   };
-                  "@swap" = lib.mkIf withSwap {
+                  "/swap" = lib.mkIf withSwap {
                     mountpoint = "/.swapvol";
                     swap.swapfile.size = "${swapSize}G";
                   };

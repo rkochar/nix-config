@@ -18,7 +18,8 @@
     {
       _module.args = {
         disk = "/dev/disk/by-id/nvme-MSI_M371_1TB_511250813224004843";
-        withSwap = false;
+        withSwap = true;
+	swapSize = 20;
       };
     }
 
