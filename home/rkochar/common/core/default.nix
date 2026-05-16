@@ -19,6 +19,7 @@ in
 
     # FIXME(starter): add/edit as desired
     ./bash.nix
+    ./home-manager.nix
     # ./darwin.nix
     ./direnv.nix
     ./fonts.nix

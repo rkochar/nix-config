@@ -23,8 +23,8 @@ in
       # automatically import host SSH keys as age keys
       sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
-      # keyFile = "/var/lib/sops-nix/key.txt";
-      # generateKey = true;
+      keyFile = "/var/lib/sops-nix/key.txt";
+      generateKey = true;
     };
     # secrets will be output to /run/secrets
     # e.g. /run/secrets/msmtp-password
