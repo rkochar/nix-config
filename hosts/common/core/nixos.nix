@@ -18,14 +18,14 @@
   #
   # ========== Nix Helper ==========
   #
-  # Provide better build output and will also handle garbage collection in place of standard nix gc (garbace collection)
+  # Provide better build output and will also handle garbage collection in place of standard nix gc (garbage collection)
   programs.nh = {
     enable = true;
     clean = {
       enable = true;
       extraArgs = "--keep-since 20d --keep 20";
     };
-    flake = "${config.hostSpec.home}/Projects/nix-config";
+    flake = "${config.hostSpec.home}/nix-config";
   };
 
   #

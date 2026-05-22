@@ -19,12 +19,13 @@ in
 
     # FIXME(starter): add/edit as desired
     ./bash.nix
-    ./home-manager.nix
     # ./darwin.nix
     ./direnv.nix
     ./fonts.nix
+    ./home-manager.nix
     ./git.nix
     ./kitty.nix
+    ./neovim.nix
     ./nixos.nix
     ./ssh.nix
   ];
@@ -72,8 +73,6 @@ in
       warn-dirty = false;
     };
   };
-
-  programs.home-manager.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
