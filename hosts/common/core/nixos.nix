@@ -23,7 +23,7 @@
     enable = true;
     clean = {
       enable = true;
-      extraArgs = "--keep-since 20d --keep 20";
+      extraArgs = "--keep-since 7d --keep 3";
     };
     flake = "${config.hostSpec.home}/nix-config";
   };
