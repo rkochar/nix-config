@@ -3,6 +3,9 @@
   lib,
   ...
 }:
+let
+  _stateVersion = "25.11";
+in
 {
   imports = lib.flatten [
     #
@@ -62,6 +65,7 @@
   # for examples.
   hostSpec = {
     hostName = "nitro";
+    stateVersion = _stateVersion;
   };
 
   networking = {
@@ -126,7 +130,7 @@
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system = {
-    stateVersion = "25.11"; # Did you read the comment?
+    stateVersion = _stateVersion; # Did you read the comment?
     autoUpgrade.enable = false;
   };
 }

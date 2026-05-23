@@ -40,6 +40,7 @@ in
   hostSpec = {
     username = "rkochar";
     handle = "rahulkochar";
+    shell = "zsh";
     # FIXME(starter): modify the attribute sets hostSpec will inherit from your nix-secrets.
     # If you're not using nix-secrets then remove the following six lines below.
     inherit (inputs.nix-secrets)

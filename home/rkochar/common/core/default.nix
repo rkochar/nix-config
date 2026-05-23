@@ -18,7 +18,7 @@ in
     ./${platform}.nix
 
     # FIXME(starter): add/edit as desired
-    ./bash.nix
+    ./${hostSpec.shell}.nix
     # ./darwin.nix
     ./direnv.nix
     ./fonts.nix
@@ -37,13 +37,13 @@ in
   home = {
     username = lib.mkDefault config.hostSpec.username;
     homeDirectory = lib.mkDefault config.hostSpec.home;
-    stateVersion = lib.mkDefault "24.11";
+    stateVersion = lib.mkDefault config.hostSpec.stateVersion;
     sessionPath = [
       "$HOME/.local/bin"
     ];
     sessionVariables = {
-      FLAKE = "$HOME/src/nix/nix-config";
-      SHELL = "bash";
+      FLAKE = "$HOME/nix-config";
+      SHELL = "zsh";
     };
   };
 
