@@ -7,17 +7,18 @@
     enable = true;
     vimAlias = true;
     defaultEditor = true;
-    extraLuaConfig = ''
-      vim.opt.number = true
-      vim.opt.ignorecase = true
-      vim.opt.smartcase = true
-      vim.opt.smartindent = true
-    '';
+    extraLuaConfig = builtins.readFile ./config/vim.lua;
     plugins = with pkgs.vimPlugins; [
       nvim-lspconfig
+      nvim-treesitter-textobjects
       nvim-treesitter.withAllGrammars
+      nvim-treesitter-context
 
-      rainbow-delimiters-nvim      
+      tokyonight-nvim
+      material-nvim
+      gruvbox-material-nvim
+      papercolor-theme-slim
+      rainbow-delimiters-nvim
     ];
   };
 }
