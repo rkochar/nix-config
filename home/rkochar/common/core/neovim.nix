@@ -1,5 +1,7 @@
 {
+  config,
   pkgs,
+  home,
   ...
 }:
 {
@@ -7,7 +9,7 @@
     enable = true;
     vimAlias = true;
     defaultEditor = true;
-    extraLuaConfig = builtins.readFile ./config/vim.lua;
+    extraLuaConfig = builtins.readFile ./config/neovim/init.lua;
     plugins = with pkgs.vimPlugins; [
       nvim-lspconfig
       nvim-treesitter-textobjects
@@ -18,7 +20,10 @@
       material-nvim
       gruvbox-material-nvim
       papercolor-theme-slim
+      onedark-nvim
       rainbow-delimiters-nvim
     ];
   };
+
+  home.file.".config/nvim/lua".source = ./config/neovim/lua;
 }

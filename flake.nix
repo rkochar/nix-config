@@ -158,6 +158,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # nixCats
+    # https://github.com/BirdeeHub/nixCats-nvim/blob/main/templates/home-manager/default.nix
+    # https://www.reddit.com/r/NixOS/comments/1imqwgg/how_do_i_actually_use_nixcats/
+    # or a flake like https://github.com/pinksteven/stevenvim/
+    # nixCats.url = "github:BirdeeHub/nixCats-nvim";
+
     #
     # ========= Personal Repositories =========
     #
