@@ -15,6 +15,14 @@
           type = lib.types.str;
           description = "The username of the host";
         };
+        stateVersion = lib.mkOption {
+          type = lib.types.str;
+          description = "The stateVersion of the system";
+        };
+        shell = lib.mkOption {
+          type = lib.types.str;
+          description = "The shell of the user";
+        };
         hostName = lib.mkOption {
           type = lib.types.str;
           description = "The hostname of the host";

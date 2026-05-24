@@ -7,8 +7,10 @@
       "bkkbcggnhapdmkeljlodobbkopceiche"  # Popup blocker
       "cjpalhdlnbpafiamejdnhcphjbkeiagm"  # UBlock Origin
     ];
+    # chrome://flags
     commandLineArgs = [
       "--restore-last-session"
+      "--force-dark-mode"
     ];
   };
 }

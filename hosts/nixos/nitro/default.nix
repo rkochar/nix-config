@@ -50,6 +50,7 @@ in
       # The following are for example sake only and are not necessarily required.
       # openssh should move to core
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
+      "hosts/common/optional/services/tlp.nix" # laptop power management
       "hosts/common/optional/audio.nix" # pipewire and cli controls
       "hosts/common/optional/gdm.nix"
       "hosts/common/optional/home-manager.nix"
@@ -91,7 +92,7 @@ in
 
       systemd-boot = {
 	enable = true;
-	configurationLimit = lib.mkDefault 9;
+	configurationLimit = lib.mkDefault 5;
 
 	edk2-uefi-shell = {
 	  enable = true;  # Needed to boot into devices in another disk.
