@@ -44,6 +44,8 @@ in
     sessionVariables = {
       FLAKE = "$HOME/nix-config";
       SHELL = "zsh";
+      # required for proton GE installer
+      # STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
     };
   };
 

@@ -49,6 +49,7 @@ in
       # FIXME(starter): add or remove any optional host-level configuration files the host will use
       # The following are for example sake only and are not necessarily required.
       # openssh should move to core
+      "hosts/common/optional/gaming.nix"
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
       "hosts/common/optional/services/tlp.nix" # laptop power management
       "hosts/common/optional/audio.nix" # pipewire and cli controls
@@ -61,9 +62,6 @@ in
   # ========== Host Specification ==========
   #
 
-  # FIXME(starter): declare any host-specific hostSpec options. Note that hostSpec options pertaining to
-  # more than one host can be declared in `nix-config/hosts/common/core/` see the default.nix file there
-  # for examples.
   hostSpec = {
     hostName = "nitro";
     stateVersion = _stateVersion;
@@ -125,8 +123,19 @@ in
     };
   };
 
-  hardware.graphics = {
-    enable = true;
+  # Host specific hardware config for gaming
+  hardware = {
+    nvidia = {
+      prime = {
+        nvidiaBusId = "PCI:01:00:0";
+        amdgpuBusId = "PCI:06:00:0";
+       };
+    };
+    # The replacement driver RADV, part of Mesa, is enabled by default.
+    # amdgpu.amdvlk = {
+    #   enable = true;
+    #   support32Bit.enable = true;
+    # };
   };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
