@@ -1,4 +1,9 @@
 -- Lua
+-- require("nvim-treesitter.configs").setup({
+--   highlight = { enable = true },
+-- })
+
+-- https://github.com/navarasu/onedark.nvim#default-configuration
 require('onedark').setup  {
     -- Main options --
     style = 'warmer', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
@@ -40,4 +45,4 @@ require('onedark').setup  {
 }
 
 require('onedark').load()
--- vim.cmd.colorscheme("habamax")
+-- vim.cmd.colorscheme("PaperColorSlim")

@@ -16,8 +16,8 @@ vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 vim.opt.shiftround = false
-vim.opt.smartindent = true
-vim.opt.autoindent = true  -- let treesitter figure out indents
+vim.opt.smartindent = false  -- let treesitter figure out indents
+vim.opt.autoindent = false  -- let treesitter figure out indents
 -- :h gq for formatting with movements
 vim.keymap.set('n', '<leader>i', 'gg=G', {desc = 'Indent file', remap = false})
 
@@ -74,24 +74,5 @@ vim.keymap.set('i', 'jk', '<esc>', {desc = 'Bind jk to escape', remap = false})
 
 vim.keymap.set('n', '<c-d>', 'ddi', {desc = 'Delete current line in insert mode', remap = false})
 
--- TODO: fold on match
--- " https://stackoverflow.com/a/58514774/12555857
--- nnoremap <leader>F :setlocal foldexpr=(getline(v:lnum)=~@/)?0:1 foldmethod=expr foldlevel=0 foldcolumn=2 foldminlines=0<CR><CR>
--- nnoremap <leader>f :setlocal foldexpr=(getline(v:lnum)=~@/)?1:0 foldmethod=expr foldlevel=0 foldcolumn=2 foldminlines=0<CR><CR>
-
-require'nvim-treesitter.configs'.setup {
-  enable = true,
-  disable = function(lang, buf)
-    local max_filesize = 100 * 1024 -- 100 KB
-    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-    if ok and stats and stats.size > max_filesize then
-      return true
-    end
-  end,
-  additional_vim_regex_highlighting = true,
-  indent = {
-    enable = false;  -- doesn't seem to work very well
-  },
-}
-
+require("treesitter.init")
 require("theme.onedark")
