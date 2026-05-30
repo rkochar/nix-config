@@ -36,7 +36,6 @@ vim.keymap.set('n', 'j', 'gj', {desc = 'Move editor lines when wrapped', remap =
 vim.keymap.set('n', 'k', 'gk', {desc = 'Move editor lines when wrapped', remap = false})
 vim.opt.startofline = true
 
-
 vim.opt.hidden = true  -- preserve buffers
 vim.opt.laststatus = 2
 vim.opt.showmode = true
