@@ -1,81 +1,87 @@
 #FIXME: Move attrs that will only work on linux to nixos.nix
 {
-  config,
-  lib,
-  pkgs,
-  hostSpec,
-  ...
+    config,
+    lib,
+    pkgs,
+    hostSpec,
+    ...
 }:
 let
-  platform = if hostSpec.isDarwin then "darwin" else "nixos";
+    platform = if hostSpec.isDarwin then "darwin" else "nixos";
 in
-{
-  imports = lib.flatten [
-    (map lib.custom.relativeToRoot [
-      "modules/common/host-spec.nix"
-      "modules/home"
-    ])
-    ./${platform}.nix
+    {
+    imports = lib.flatten [
+        (map lib.custom.relativeToRoot [
+            "modules/common/host-spec.nix"
+            "modules/home"
+        ])
+        ./${platform}.nix
 
-    # FIXME(starter): add/edit as desired
-    ./${hostSpec.shell}.nix
-    # ./darwin.nix
-    ./direnv.nix
-    ./fonts.nix
-    ./home-manager.nix
-    ./git.nix
-    ./kitty.nix
-    ./neovim.nix
-    ./nixos.nix
-    ./ssh.nix
-  ];
-
-  inherit hostSpec;
-
-  services.ssh-agent.enable = true;
-
-  home = {
-    username = lib.mkDefault config.hostSpec.username;
-    homeDirectory = lib.mkDefault config.hostSpec.home;
-    stateVersion = lib.mkDefault config.hostSpec.stateVersion;
-    sessionPath = [
-      "$HOME/.local/bin"
+        # FIXME(starter): add/edit as desired
+        ./${hostSpec.shell}.nix
+        # ./darwin.nix
+        ./direnv.nix
+        ./clitools.nix
+        ./delta.nix
+        ./jujutsu.nix
+        ./fonts.nix
+        ./home-manager.nix
+        ./git.nix
+        ./kitty.nix
+        ./neovim.nix
+        ./nixos.nix
+        ./ssh.nix
     ];
-    sessionVariables = {
-      FLAKE = "$HOME/nix-config";
-      SHELL = "zsh";
-      # required for proton GE installer
-      # STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
+
+    inherit hostSpec;
+
+    services.ssh-agent.enable = true;
+
+    home = {
+        username = lib.mkDefault config.hostSpec.username;
+        homeDirectory = lib.mkDefault config.hostSpec.home;
+        stateVersion = lib.mkDefault config.hostSpec.stateVersion;
+        sessionPath = [
+            "$HOME/.local/bin"
+        ];
+        sessionVariables = {
+            FLAKE = "$HOME/nix-config";
+            SHELL = "zsh";
+            # required for proton GE installer
+            # STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
+        };
     };
-  };
 
-  home.packages = builtins.attrValues {
-    inherit (pkgs)
+    home.packages = builtins.attrValues {
+        inherit (pkgs)
 
-      # FIXME(starter): add/edit as desired
-      # Packages that don't have custom configs go here
-      curl
-      pciutils
-      pfetch # system info
-      pre-commit # git hooks
-      p7zip # compression & encryption
-      usbutils
-      unzip # zip extraction
-      unrar # rar extraction
-      ;
-  };
-
-  nix = {
-    package = lib.mkDefault pkgs.nix;
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      warn-dirty = false;
+        # FIXME(starter): add/edit as desired
+        # Packages that don't have custom configs go here
+        curl
+        pciutils
+        pfetch # system info
+        pre-commit # git hooks
+        usbutils
+        unzip # zip extraction
+        sops
+        age
+        fastfetch
+        eza
+        asn
+        ;
     };
-  };
 
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
+    nix = {
+        package = lib.mkDefault pkgs.nix;
+        settings = {
+            experimental-features = [
+                "nix-command"
+                "flakes"
+            ];
+            warn-dirty = false;
+        };
+    };
+
+    # Nicely reload system units when changing configs
+    systemd.user.startServices = "sd-switch";
 }
