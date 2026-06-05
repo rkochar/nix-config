@@ -6,6 +6,8 @@ vim.g.maplocalleader = ','
 
 vim.opt.relativenumber = true
 vim.keymap.set({'n', 'i', 'v'}, '<leader>L', '<CMD>set invrelativenumber<CR>', {desc = 'Toggle number and relative number', remap = false})
+-- https://www.reddit.com/r/neovim/comments/1d16sx1/can_absolute_and_relative_line_numbers_be_used/
+vim.opt.statuscolumn = "%=%{v:relnum ? v:relnum : v:lnum}%=%s"  -- Show absolute number for current line and relative for others
 vim.opt.selection = "inclusive"  -- inclusive adds an extra line
 
 vim.opt.wrap = true
@@ -16,10 +18,6 @@ vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 vim.opt.shiftround = false
-vim.opt.smartindent = false  -- let treesitter figure out indents
-vim.opt.autoindent = false  -- let treesitter figure out indents
--- :h gq for formatting with movements
-vim.keymap.set('n', '<leader>i', 'gg=G', {desc = 'Indent file', remap = false})
 
 vim.opt.listchars = {
     tab = '>-',
@@ -74,4 +72,6 @@ vim.keymap.set('i', 'jk', '<esc>', {desc = 'Bind jk to escape', remap = false})
 vim.keymap.set('n', '<c-d>', 'ddi', {desc = 'Delete current line in insert mode', remap = false})
 
 require("treesitter.init")
+require("decoration.init")
+require("filesystem.init")
 require("theme.onedark")

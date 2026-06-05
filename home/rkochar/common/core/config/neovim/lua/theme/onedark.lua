@@ -1,8 +1,3 @@
--- Lua
--- require("nvim-treesitter.configs").setup({
---   highlight = { enable = true },
--- })
-
 -- https://github.com/navarasu/onedark.nvim#default-configuration
 require('onedark').setup  {
     -- Main options --

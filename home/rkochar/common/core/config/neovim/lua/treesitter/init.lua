@@ -3,7 +3,7 @@ require('nvim-treesitter.configs').setup {
     disable = function(lang, buf)
         local max_filesize = 100 * 1024 -- 100 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-        if ok and stats and stats.size > max_filesize then
+        if does_treesitter_parser_exist and ok and stats and stats.size > max_filesize then
             return true
         end
     end,
@@ -13,13 +13,18 @@ require('nvim-treesitter.configs').setup {
     },
 }
 
+-- https://github.com/nvim-treesitter/nvim-treesitter/issues/2108#issuecomment-995069984
+function does_treesitter_parser_exist()
+    local parsers = require("nvim-treesitter.parsers")
+    local lang = parsers.get_buf_lang()
+    return parsers.get_parser_configs()[lang] and parsers.has_parser(lang)
+end
+
 -- https://github.com/nvim-treesitter/nvim-treesitter/tree/main?tab=readme-ov-file#highlighting
 vim.api.nvim_create_autocmd('FileType', {
     pattern = { '*' },
     callback = function(args)
-        local ok = pcall(vim.treesitter.start(), args.bug)
-
-        if ok then
+        if does_treesitter_parser_exist() then
             -- https://github.com/nvim-treesitter/nvim-treesitter/tree/main?tab=readme-ov-file#indentation
             vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end
@@ -44,3 +49,11 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 -- https://www.reddit.com/r/neovim/comments/16xz3q9/treesitter_highlighted_folds_are_now_in_neovim/
 vim.opt.foldtext = require('treesitter.foldtext')
+
+
+-- Standard neovim config --
+vim.opt.smartindent = false  -- let treesitter figure out indents
+vim.opt.autoindent = false   -- let treesitter figure out indents
+
+-- :h gq for formatting with movements
+vim.keymap.set('n', '<leader>i', 'gg=G', {desc = 'Indent file', remap = false})
