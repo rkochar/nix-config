@@ -73,5 +73,6 @@ vim.keymap.set('n', '<c-d>', 'ddi', {desc = 'Delete current line in insert mode'
 
 require("treesitter.init")
 require("decoration.init")
+require("movement.init")
 require("filesystem.init")
 require("theme.onedark")

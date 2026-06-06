@@ -70,6 +70,7 @@ function fzd {
 }
 
 # TODO: look into toggling -tf and -td
+# TODO: fix f and s. the bind seems to run into permission denied.
 # Call fzf with opinionated env var https://github.com/junegunn/fzf/pull/3618
 # can not use programs.fzf.opts because it is not global https://discourse.nixos.org/t/fzf-defaultoptions-not-applied-in-home-manager/59502
 function f {
