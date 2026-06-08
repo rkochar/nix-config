@@ -1,3 +1,5 @@
 require("movement/multiple-cursors")
 require("movement/spider")
 require("movement/surround")
+require("movement/dial")
+require("movement/coerce")

@@ -27,41 +27,41 @@ gitsigns.setup {
         end)
 
         -- Actions
-        map('n', '<leader>hs', gitsigns.stage_hunk)
-        map('n', '<leader>hr', gitsigns.reset_hunk)
+        map('n', '<leader>hs', gitsigns.stage_hunk, {remap = false, desc = "stage hunk"})
+        map('n', '<leader>hr', gitsigns.reset_hunk, {remap = false, desc = "reset hunk"})
 
         map('v', '<leader>hs', function()
             gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-        end)
+        end, {remap = false, desc = "stage hunk"})
 
         map('v', '<leader>hr', function()
             gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-        end)
+        end, {remap = false, desc = "reset hunk"})
 
-        map('n', '<leader>hS', gitsigns.stage_buffer)
-        map('n', '<leader>hR', gitsigns.reset_buffer)
-        map('n', '<leader>hp', gitsigns.preview_hunk)
-        map('n', '<leader>hi', gitsigns.preview_hunk_inline)
+        map('n', '<leader>hS', gitsigns.stage_buffer, {remap = false, desc = "stage buffer"})
+        map('n', '<leader>hR', gitsigns.reset_buffer, {remap = false, desc = "stage buffer"})
+        map('n', '<leader>hp', gitsigns.preview_hunk, {remap = false, desc = "preview hunk"})
+        map('n', '<leader>hi', gitsigns.preview_hunk_inline, {remap = false, desc = "preview hunk inline"})
 
         map('n', '<leader>hb', function()
             gitsigns.blame_line({ full = true })
-        end)
+        end, {remap = false, desc = "blame line"})
 
-        map('n', '<leader>hd', gitsigns.diffthis)
+        map('n', '<leader>hd', gitsigns.diffthis, {remap = false, desc = "diffthis with index (HEAD?)"})
 
         map('n', '<leader>hD', function()
             gitsigns.diffthis('~')
-        end)
+        end, {remap = false, desc = "diffthis with last commit"})
 
-        map('n', '<leader>hQ', function() gitsigns.setqflist('all') end)
-        map('n', '<leader>hq', gitsigns.setqflist)
+        map('n', '<leader>hQ', function() gitsigns.setqflist('all') end, {remap = false, desc = "open all hunks in qf"})
+        map('n', '<leader>hq', gitsigns.setqflist, {remap = false, desc = "open hunks in qf"})
 
         -- Toggles
-        map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
-        map('n', '<leader>tw', gitsigns.toggle_word_diff)
+        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, {remap = false, desc = "toggle git blame on line"})
+        map('n', '<leader>tw', gitsigns.toggle_word_diff, {remap = false, desc = "toggle word diff"})
 
         -- Text object
-        map({'o', 'x'}, 'ih', gitsigns.select_hunk)
+        map({'o', 'x'}, 'ih', gitsigns.select_hunk, {remap = false, desc = "select hunk"})
     end
 }
 

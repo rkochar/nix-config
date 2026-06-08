@@ -1,6 +1,72 @@
 -- use :bd to exit :Oil or :edit
 vim.keymap.set("n", "<leader>-", "<CMD>Oil --float<CR>", { remap = false, desc = "Open parent directory" })
 
+local oil_action = require("oil.actions")
+
+vim.keymap.set("n", "g?", function()
+  oil_action.show_help.callback()
+end, { remap = false, desc = "oil: help" })
+
+vim.keymap.set("n", "<CR>", function()
+  oil_action.select.callback()
+end, { remap = false, desc = "oil: open entry under cursor" })
+
+vim.keymap.set("n", "<c-c>", function()
+  oil_action.close.callback()
+end, { remap = false, desc = "oil: close window" })
+
+vim.keymap.set("n", "<leader>o<c-r>", function()
+  oil_action.refresh.callback()
+end, { remap = false, desc = "oil: refresh" })
+
+vim.keymap.set("n", "<leader>o<c-s>", function()
+  oil_action.select.callback({ vertical = true })
+end, { remap = false, desc = "oil: vertical split file" })
+
+vim.keymap.set("n", "<leader>o<c-h>", function()
+  oil_action.select.callback({ horizontal = true })
+end, { remap = false, desc = "oil: horizontal split file" })
+
+vim.keymap.set("n", "<leader>o<c-t>", function()
+  oil_action.select.callback({ tab = true })
+end, { remap = false, desc = "oil: open in new tab" })
+
+vim.keymap.set("n", "<leader>o<c-p>", function()
+  oil_action.preview.callback()
+end, { remap = false, desc = "oil: preview entry under cursor" })
+
+vim.keymap.set("n", "-", function()
+  oil_action.parent.callback()
+end, { remap = false, desc = "oil: goto parent directory" })
+
+vim.keymap.set("n", "_", function()
+  oil_action.open_cwd.callback()
+end, { remap = false, desc = "oil: goto cwd" })
+
+vim.keymap.set("n", "`", function()
+  oil_action.cd.callback()
+end, { remap = false, desc = "oil: cd" })
+
+vim.keymap.set("n", "g~", function()
+  oil_action.cd.callback({ scope = "tab" })
+end, { remap = false, desc = "oil: cd (tab scope)" })
+
+vim.keymap.set("n", "gs", function()
+  oil_action.change_sort.callback()
+end, { remap = false, desc = "oil: change sort order" })
+
+vim.keymap.set("n", "gx", function()
+  oil_action.open_external.callback()
+end, { remap = false, desc = "oil: open in external program" })
+
+vim.keymap.set("n", "g.", function()
+  oil_action.toggle_hidden.callback()
+end, { remap = false, desc = "oil: toggle hidden" })
+
+vim.keymap.set("n", "g\\", function()
+  oil_action.toggle_trash.callback()
+end, { remap = false, desc = "oil: toggle trash" })
+
 require("oil").setup({
     -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
     -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
@@ -60,24 +126,7 @@ require("oil").setup({
     -- it will use the mapping at require("oil.actions").<name>
     -- Set to `false` to remove a keymap
     -- See :help oil-actions for a list of all available actions
-    keymaps = {
-        ["g?"] = { "actions.show_help", mode = "n" },
-        ["<CR>"] = "actions.select",
-        ["<C-s>"] = { "actions.select", opts = { vertical = true } },
-        ["<C-h>"] = { "actions.select", opts = { horizontal = true } },
-        ["<C-t>"] = { "actions.select", opts = { tab = true } },
-        ["<C-p>"] = "actions.preview",
-        ["<C-c>"] = { "actions.close", mode = "n" },
-        ["<C-l>"] = "actions.refresh",
-        ["-"] = { "actions.parent", mode = "n" },
-        ["_"] = { "actions.open_cwd", mode = "n" },
-        ["`"] = { "actions.cd", mode = "n" },
-        ["g~"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
-        ["gs"] = { "actions.change_sort", mode = "n" },
-        ["gx"] = "actions.open_external",
-        ["g."] = { "actions.toggle_hidden", mode = "n" },
-        ["g\\"] = { "actions.toggle_trash", mode = "n" },
-    },
+    keymaps = {},
     -- Set to false to disable all of the above keymaps
     use_default_keymaps = true,
     view_options = {
