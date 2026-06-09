@@ -51,6 +51,7 @@ in
             gitsigns-nvim
             # windline-nvim  # not in nixpkgs
             rainbow-delimiters-nvim
+            nvim-web-devicons
 
             # Filesystem
             oil-nvim
@@ -71,6 +72,7 @@ in
             # utilities (generic)
             which-key-nvim
             coop  # needed by coerce
+            fzf-lua
         ];
     };
 
