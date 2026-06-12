@@ -45,10 +45,13 @@ in
         withPython3 = false;
         plugins = with pkgs.vimPlugins; [
             # Treesitter
-            nvim-lspconfig
             nvim-treesitter-textobjects
             nvim-treesitter.withAllGrammars
             nvim-treesitter-context
+
+            # lsp
+            nvim-lspconfig
+            lsp_signature-nvim
 
             # Decoration
             gitsigns-nvim
@@ -78,6 +81,13 @@ in
             fzf-lua
         ];
     };
+
+    home.packages = with pkgs; [
+        nixd
+        starpls
+        gopls
+        basedpyright
+    ];
 
     home.file.".config/nvim/lua".source = ./config/neovim/lua;
 }
