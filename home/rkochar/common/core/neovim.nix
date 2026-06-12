@@ -40,6 +40,9 @@ in
         vimAlias = true;
         defaultEditor = true;
         extraLuaConfig = builtins.readFile ./config/neovim/init.lua;
+        # waylandSupport = true;
+        withRuby = false;
+        withPython3 = false;
         plugins = with pkgs.vimPlugins; [
             # Treesitter
             nvim-lspconfig
