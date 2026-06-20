@@ -53,10 +53,18 @@ in
 
   networking.hostName = config.hostSpec.hostName;
 
-  # System-wide packages, in case we log in as root
-  environment.systemPackages = [ pkgs.openssh ];
+    # System-wide packages, in case we log in as root
+    environment.systemPackages = with pkgs; [
+        openssh
 
-  home-manager = {
+        # Wayland
+        # TODO: move them someplace better
+        wayland
+        wayland-protocols
+        wayland-utils
+    ];
+
+    home-manager = {
     # Force home-manager to use global packages
     useGlobalPkgs = true;
     # If there is a conflict file that is backed up, use this extension

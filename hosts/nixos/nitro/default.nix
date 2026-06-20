@@ -54,6 +54,7 @@ in
       "hosts/common/optional/services/tlp.nix" # laptop power management
       "hosts/common/optional/audio.nix" # pipewire and cli controls
       "hosts/common/optional/gdm.nix"
+      "hosts/common/optional/hyprland"
       "hosts/common/optional/home-manager.nix"
     ])
   ];
