@@ -1,7 +1,7 @@
 local function accept_index(index)
-  return function(cmp)
-    cmp.accept({ index = index })
-  end
+    return function(cmp)
+        cmp.accept({ index = index })
+    end
 end
 
 require("blink.cmp").setup({
@@ -59,7 +59,7 @@ require("blink.cmp").setup({
     -- snippets = { preset = 'default' | 'luasnip' | 'mini_snippets' | 'vsnip' },
     sources = {
         -- TODO: add snippets
-        default = { "lsp", "path", "buffer", "ripgrep", "nerdfont" },
+        default = { "ecolog", "lsp", "path", "buffer", "ripgrep", "nerdfont" },
 
         per_filetype = {},  -- custom
 
@@ -98,6 +98,10 @@ require("blink.cmp").setup({
                     trigger = ":",
                 },
             },
+            ecolog = {
+                name = 'ecolog',
+                module = 'ecolog.integrations.cmp.blink_cmp',
+            },
         },
     },
 
@@ -123,64 +127,76 @@ require("blink.cmp").setup({
                     timeout_ms = 400,
                 },
             },
-
         },
-    },
 
-    trigger = {
-        show_on_trigger_character = true,
-        show_on_blocked_trigger_characters = { ' ', '\n', '\t' },
-        show_on_insert_on_trigger_character = true,
-        show_on_x_blocked_trigger_characters = {
-            "'", '"', '(', '{', '['
-        },
-        show_on_accept_on_trigger_character = true,
-        show_on_x_blocked_trigger_characters = { "'", '"', '(', '{', '[' },
-        show_in_snippet = false,  -- https://cmp.saghen.dev/configuration/keymap.html#super-tab
-    },
-
-    list = {
-        -- <c-e> closes menu and undoes preview
-        selection = {
-            preselect = false,
-            auto_insert = true,
-        },
-    },
-
-    menu = {
-        enabled = true,
-        scrollbar = true,
-        auto_show = true,
-        auth_show_delay_ms = 0,
-
-        draw = {
-            treesitter = { 'lsp' },
-
-            columns = {
-                { 'item_idx' }, { 'kind_icon' }, { 'label', 'label_description', gap = 1 }
+        trigger = {
+            show_on_trigger_character = true,
+            show_on_blocked_trigger_characters = { ' ', '\n', '\t' },
+            show_on_insert_on_trigger_character = true,
+            show_on_x_blocked_trigger_characters = {
+                "'", '"', '(', '{', '['
             },
-            components = {
-                item_idx = {
-                    text = function(ctx) return ctx.idx == 10 and '0' or ctx.idx >= 10 and ' ' or tostring(ctx.idx) end,
-                highlight = 'BlinkCmpItemIdx' -- optional, only if you want to change its color
-                }
-            }
+            show_on_accept_on_trigger_character = true,
+            show_on_x_blocked_trigger_characters = { "'", '"', '(', '{', '[' },
+            show_in_snippet = false,  -- https://cmp.saghen.dev/configuration/keymap.html#super-tab
         },
-    },
 
-    documentation = {
-        auto_show = false,
-        auto_show_delay_ms = 500,
-        update_delay_ms = 50,
-        treesitter_highlighting = true,
-    },
+        list = {
+            selection = {
+                preselect = false,
+                auto_insert = true,
+            },
+        },
 
-    ghost_text = {
-        enabled = false,
-        show_with_selection = true,
-        show_without_selection = false,
-        show_with_menu = true,
-        show_without_menu = true,
+        menu = {
+            enabled = true,
+            scrollbar = true,
+            auto_show = true,  -- maybe conflicts with ghost_text`
+            auth_show_delay_ms = 0,
+
+            draw = {
+                treesitter = { 'lsp' },
+
+                columns = {
+                    { 'item_idx' },
+                    { "kind_icon" },
+                    { 
+                        "label",
+                        "label_description",
+                        gap = 1
+                    }
+                },
+                components = {
+                    label = {
+                        text = function(ctx)
+                            return require("colorful-menu").blink_components_text(ctx)
+                        end,
+                        highlight = function(ctx)
+                            return require("colorful-menu").blink_components_highlight(ctx)
+                        end,
+                    },
+                    item_idx = {
+                        text = function(ctx) return ctx.idx == 10 and '0' or ctx.idx >= 10 and ' ' or tostring(ctx.idx) end,
+                        highlight = 'BlinkCmpItemIdx' -- optional, only if you want to change its color
+                    }
+                },
+            },
+        },
+
+        documentation = {
+            auto_show = false,
+            auto_show_delay_ms = 500,
+            update_delay_ms = 50,
+            treesitter_highlighting = true,
+        },
+
+        ghost_text = {
+            enabled = true,  -- maybe menu.auto_show conflicts
+            show_with_selection = true,
+            show_without_selection = false,
+            show_with_menu = true,
+            show_without_menu = true,
+        },
     },
 
     fuzzy = {

@@ -51,8 +51,8 @@ in
 
             # lsp
             nvim-lspconfig
-            lsp_signature-nvim
-            blink-cmp
+            lsp_signature-nvim  # function signatures
+            blink-cmp  # completions
             blink-ripgrep-nvim
             blink-nerdfont-nvim
 
@@ -78,10 +78,15 @@ in
             papercolor-theme-slim
             onedark-nvim
 
-            # utilities (generic)
+            # utility (generic)
             which-key-nvim
             coop  # needed by coerce
             fzf-lua
+            noice-nvim  # cmd ui  # needs nui
+            ecolog-nvim  # env var
+            colorful-menu-nvim  # menu box
+            nui-nvim  # needed by noice
+            nvim-notify
         ];
     };
 
@@ -89,7 +94,7 @@ in
         nixd
         starpls
         gopls
-        basedpyright
+        basedpyright  # ty by astral-sh is in beta
     ];
 
     home.file = {
@@ -108,7 +113,6 @@ in
         ".config/nvim/lua/lsp/bazel.lua".source = ./config/neovim/lua/lsp/bazel.lua;
         ".config/nvim/lua/lsp/blink.lua".source = ./config/neovim/lua/lsp/blink.lua;
         ".config/nvim/lua/lsp/go.lua".source = ./config/neovim/lua/lsp/go.lua;
-        ".config/nvim/lua/lsp/lua.lua".source = ./config/neovim/lua/lsp/lua.lua;
         ".config/nvim/lua/lsp/nix.lua".source = ./config/neovim/lua/lsp/nix.lua;
         ".config/nvim/lua/lsp/python.lua".source = ./config/neovim/lua/lsp/python.lua;
 
@@ -127,5 +131,9 @@ in
         ".config/nvim/lua/utility/init.lua".source = ./config/neovim/lua/utility/init.lua;
         ".config/nvim/lua/utility/fzf.lua".source = ./config/neovim/lua/utility/fzf.lua;
         ".config/nvim/lua/utility/which-key.lua".source = ./config/neovim/lua/utility/which-key.lua;
+        ".config/nvim/lua/utility/ecolog.lua".source = ./config/neovim/lua/utility/ecolog.lua;
+        ".config/nvim/lua/utility/noice.lua".source = ./config/neovim/lua/utility/noice.lua;
+        ".config/nvim/lua/utility/colorful-menu.lua".source = ./config/neovim/lua/utility/colorful-menu.lua;
+        ".config/nvim/lua/utility/notify.lua".source = ./config/neovim/lua/utility/notify.lua;
     };
 }

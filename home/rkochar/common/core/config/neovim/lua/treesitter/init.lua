@@ -1,27 +1,61 @@
+require('nvim-treesitter.configs').setup {
+    enable = true,
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if does_treesitter_parser_exist and ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+    additional_vim_regex_highlighting = true,
+    indent = {
+        enable = true;
+    },
+}
+
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/2108#issuecomment-995069984
 function does_treesitter_parser_exist()
-    return pcall(vim.treesitter.get_parser, buf)
+    local parsers = require("nvim-treesitter.parsers")
+    local lang = parsers.get_buf_lang()
+    return parsers.get_parser_configs()[lang] and parsers.has_parser(lang)
 end
 
 -- https://github.com/nvim-treesitter/nvim-treesitter/tree/main?tab=readme-ov-file#highlighting
 vim.api.nvim_create_autocmd('FileType', {
     pattern = { '*' },
     callback = function(args)
-        local file = vim.api.nvim_buf_get_name(args.buf)
-        local ok, stats = pcall(vim.loop.fs_stat, file)
-        local max_filesize = 100*1024
-
-        if ok and stats and stats.size > max_filesize then
-            return
-        end
-
-        pcall(vim.treesitter.start, args.buf)
         if does_treesitter_parser_exist() then
             -- https://github.com/nvim-treesitter/nvim-treesitter/tree/main?tab=readme-ov-file#indentation
             vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end
     end,
 })
+
+-- nvim-treesitter breaking change
+-- -- https://github.com/nvim-treesitter/nvim-treesitter/issues/2108#issuecomment-995069984
+-- function does_treesitter_parser_exist()
+--     return pcall(vim.treesitter.get_parser, buf)
+-- end
+--
+-- -- https://github.com/nvim-treesitter/nvim-treesitter/tree/main?tab=readme-ov-file#highlighting
+-- vim.api.nvim_create_autocmd('FileType', {
+--     pattern = { '*' },
+--     callback = function(args)
+--         local file = vim.api.nvim_buf_get_name(args.buf)
+--         local ok, stats = pcall(vim.loop.fs_stat, file)
+--         local max_filesize = 100*1024
+--
+--         if ok and stats and stats.size > max_filesize then
+--             return
+--         end
+--
+--         pcall(vim.treesitter.start, args.buf)
+--         if does_treesitter_parser_exist() then
+--             -- https://github.com/nvim-treesitter/nvim-treesitter/tree/main?tab=readme-ov-file#indentation
+--             vim.bo.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+--         end
+--     end,
+-- })
 
 vim.opt.foldcolumn = "auto"
 -- vim.opt.foldcolumn = "auto:[1-3]"
