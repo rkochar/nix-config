@@ -42,6 +42,8 @@ require("blink.cmp").setup({
 
         ['<c-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
 
+        -- TODO: these don't seem to work
+        -- https://cmp.saghen.dev/recipes.html#select-nth-item-from-the-list
         ['<A-1>'] = { accept_index(1) },
         ['<A-2>'] = { accept_index(2) },
         ['<A-3>'] = { accept_index(3) },
@@ -57,11 +59,46 @@ require("blink.cmp").setup({
     -- snippets = { preset = 'default' | 'luasnip' | 'mini_snippets' | 'vsnip' },
     sources = {
         -- TODO: add snippets
-        default = { "lsp", "path", "buffer" },
+        default = { "lsp", "path", "buffer", "ripgrep", "nerdfont" },
 
         per_filetype = {},  -- custom
 
-        providers = {},
+        providers = {
+            ripgrep = {
+                module = "blink-ripgrep",
+                name = "Ripgrep",
+                opts = {
+                    prefix_min_len = 3,
+                    context_size = 5,
+                    project_root_marker = { ".jj", ".git" },  -- TODO: global config?
+                    fallback_to_regex_highlighting = true,
+                    backend = {
+                        use = "gitgrep-or-ripgrep",  -- gitgrep is faster. fallback on ripgrep
+                        customize_icon_highlight = true,
+                        ripgrep = {
+                            context_size = 5,
+                            max_filesize = "1M",
+                            project_root_fallback = true,
+                            search_casing = "--ignore-case",
+                            additional_rg_options = {},
+                            ignore_paths = {},
+                            additional_paths = {},
+                        },
+                        gitgrep = {
+                            additional_gitgrep_options = {},
+                        },
+                    },
+                },
+            },
+            nerdfont = {
+                module = "blink-nerdfont",
+                name = "NerdFont",
+                opts = { -- TODO: check config
+                    insert = true,
+                    trigger = ":",
+                },
+            },
+        },
     },
 
     -- TODO: add native signature: https://cmp.saghen.dev/configuration/signature.html
@@ -119,7 +156,6 @@ require("blink.cmp").setup({
         draw = {
             treesitter = { 'lsp' },
 
-            -- https://cmp.saghen.dev/recipes#select-nth-item-from-the-list
             columns = {
                 { 'item_idx' }, { 'kind_icon' }, { 'label', 'label_description', gap = 1 }
             },

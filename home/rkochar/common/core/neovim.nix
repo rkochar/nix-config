@@ -53,6 +53,8 @@ in
             nvim-lspconfig
             lsp_signature-nvim
             blink-cmp
+            blink-ripgrep-nvim
+            blink-nerdfont-nvim
 
             # Decoration
             gitsigns-nvim
