@@ -52,6 +52,7 @@ in
             # lsp
             nvim-lspconfig
             lsp_signature-nvim
+            blink-cmp
 
             # Decoration
             gitsigns-nvim
@@ -103,6 +104,7 @@ in
 
         ".config/nvim/lua/lsp/init.lua".source = ./config/neovim/lua/lsp/init.lua;
         ".config/nvim/lua/lsp/bazel.lua".source = ./config/neovim/lua/lsp/bazel.lua;
+        ".config/nvim/lua/lsp/blink.lua".source = ./config/neovim/lua/lsp/blink.lua;
         ".config/nvim/lua/lsp/go.lua".source = ./config/neovim/lua/lsp/go.lua;
         ".config/nvim/lua/lsp/lua.lua".source = ./config/neovim/lua/lsp/lua.lua;
         ".config/nvim/lua/lsp/nix.lua".source = ./config/neovim/lua/lsp/nix.lua;
