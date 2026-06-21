@@ -11,9 +11,10 @@ vim.keymap.set("n", "<CR>", function()
   oil_action.select.callback()
 end, { remap = false, desc = "oil: open entry under cursor" })
 
-vim.keymap.set("n", "<c-c>", function()
-  oil_action.close.callback()
-end, { remap = false, desc = "oil: close window" })
+-- Moved to ftplugin
+-- vim.keymap.set("n", "<c-c>", function()
+--   oil_action.close.callback()
+-- end, { remap = false, desc = "oil: close window" })
 
 vim.keymap.set("n", "<leader>o<c-r>", function()
   oil_action.refresh.callback()

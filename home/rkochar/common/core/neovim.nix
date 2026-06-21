@@ -34,7 +34,7 @@ let
         };
     };
 in
-{
+    {
     programs.neovim = {
         enable = true;
         vimAlias = true;
@@ -89,5 +89,39 @@ in
         basedpyright
     ];
 
-    home.file.".config/nvim/lua".source = ./config/neovim/lua;
+    home.file = {
+        # ".config/nvim/lua".source = ./config/neovim/lua;
+        ".config/nvim/ftplugin/oil.lua".source = ./config/neovim/ftplugin/oil.lua;
+
+        ".config/nvim/lua/decoration/init.lua".source = ./config/neovim/lua/decoration/init.lua;
+        ".config/nvim/lua/decoration/gitsigns.lua".source = ./config/neovim/lua/decoration/gitsigns.lua;
+        ".config/nvim/lua/decoration/web-devicons.lua".source = ./config/neovim/lua/decoration/web-devicons.lua;
+
+
+        ".config/nvim/lua/filesystem/init.lua".source = ./config/neovim/lua/filesystem/init.lua;
+        ".config/nvim/lua/filesystem/oil.lua".source = ./config/neovim/lua/filesystem/oil.lua;
+
+        ".config/nvim/lua/lsp/init.lua".source = ./config/neovim/lua/lsp/init.lua;
+        ".config/nvim/lua/lsp/bazel.lua".source = ./config/neovim/lua/lsp/bazel.lua;
+        ".config/nvim/lua/lsp/go.lua".source = ./config/neovim/lua/lsp/go.lua;
+        ".config/nvim/lua/lsp/lua.lua".source = ./config/neovim/lua/lsp/lua.lua;
+        ".config/nvim/lua/lsp/nix.lua".source = ./config/neovim/lua/lsp/nix.lua;
+        ".config/nvim/lua/lsp/python.lua".source = ./config/neovim/lua/lsp/python.lua;
+
+        ".config/nvim/lua/movement/init.lua".source = ./config/neovim/lua/movement/init.lua;
+        ".config/nvim/lua/movement/coerce.lua".source = ./config/neovim/lua/movement/coerce.lua;
+        ".config/nvim/lua/movement/dial.lua".source = ./config/neovim/lua/movement/dial.lua;
+        ".config/nvim/lua/movement/multiple-cursors.lua".source = ./config/neovim/lua/movement/multiple-cursors.lua;
+        ".config/nvim/lua/movement/spider.lua".source = ./config/neovim/lua/movement/spider.lua;
+        ".config/nvim/lua/movement/surround.lua".source = ./config/neovim/lua/movement/surround.lua;
+
+        ".config/nvim/lua/theme/onedark.lua".source = ./config/neovim/lua/theme/onedark.lua;
+
+        ".config/nvim/lua/treesitter/init.lua".source = ./config/neovim/lua/treesitter/init.lua;
+        ".config/nvim/lua/treesitter/foldtext.lua".source = ./config/neovim/lua/treesitter/foldtext.lua;
+
+        ".config/nvim/lua/utility/init.lua".source = ./config/neovim/lua/utility/init.lua;
+        ".config/nvim/lua/utility/fzf.lua".source = ./config/neovim/lua/utility/fzf.lua;
+        ".config/nvim/lua/utility/which-key.lua".source = ./config/neovim/lua/utility/which-key.lua;
+    };
 }
