@@ -6,8 +6,21 @@ end
 
 require("blink.cmp").setup({
     enabled = function() return not vim.tbl_contains({ "markdown" }, vim.bo.filetype) end,
-    cmdline = { enabled = false },  -- TODO: noice: https://cmp.saghen.dev/modes/cmdline.html
-    term = { enabled = false }, -- TODO: https://cmp.saghen.dev/configuration/reference.html#term
+    cmdline = {
+        enabled = true,
+        keymap = { preset = 'inherit' },
+        completion = {
+            menu = { auto_show = true },
+            list = {
+                selection = {
+                    preselect = false,
+                    auto_insert = false,
+                },
+            },
+            ghost_text = { enabled = true },
+        },
+    },
+    term = { enabled = true },
 
     keymap = {
         -- preset = 'default',
@@ -21,7 +34,6 @@ require("blink.cmp").setup({
             end,
         },
 
-
         ['<Up>'] = { 'select_prev', 'fallback' },
         ['<Down>'] = { 'select_next', 'fallback' },
         ['<c-p>'] = { 'select_prev', 'fallback_to_mappings' },
@@ -30,6 +42,7 @@ require("blink.cmp").setup({
         ['<c-b>'] = { 'scroll_documentation_up', 'fallback' },
         ['<c-f>'] = { 'scroll_documentation_down', 'fallback' },
 
+        -- TODO: snippets, supertab
         ['<Tab>'] = {
             -- function(cmp)
             --     if cmp.snippet_active() then return cmp.accept()
@@ -42,7 +55,6 @@ require("blink.cmp").setup({
 
         ['<c-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
 
-        -- TODO: these don't seem to work
         -- https://cmp.saghen.dev/recipes.html#select-nth-item-from-the-list
         ['<A-1>'] = { accept_index(1) },
         ['<A-2>'] = { accept_index(2) },
@@ -143,7 +155,7 @@ require("blink.cmp").setup({
 
         list = {
             selection = {
-                preselect = false,
+                preselect = true,
                 auto_insert = true,
             },
         },
@@ -152,7 +164,6 @@ require("blink.cmp").setup({
             enabled = true,
             scrollbar = true,
             auto_show = true,  -- maybe conflicts with ghost_text`
-            auth_show_delay_ms = 0,
 
             draw = {
                 treesitter = { 'lsp' },
