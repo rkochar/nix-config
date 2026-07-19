@@ -26,7 +26,7 @@ require("blink.cmp").setup({
         -- preset = 'default',
         ['<c-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<c-c>'] = { 'hide', 'fallback' },
-        ['<CR>'] = { 'accept', 'fallback' },
+        -- ['<CR>'] = {}, -- free up CR
         ['<c-y>'] = { 'select_and_accept', 'fallback' },
         ["<c-g>"] = {  -- ripgrep
             function()
@@ -41,13 +41,15 @@ require("blink.cmp").setup({
 
         ['<c-b>'] = { 'scroll_documentation_up', 'fallback' },
         ['<c-f>'] = { 'scroll_documentation_down', 'fallback' },
+        ['<C-u>'] = { 'scroll_signature_up', 'fallback' },
+        ['<C-d>'] = { 'scroll_signature_down', 'fallback' },
 
-        -- TODO: snippets, supertab
         ['<Tab>'] = {
             -- function(cmp)
             --     if cmp.snippet_active() then return cmp.accept()
             --     else return cmp.select_and_accept() end
             -- end,
+            'select_next',
             'snippet_forward',
             'fallback'
         },
@@ -68,10 +70,9 @@ require("blink.cmp").setup({
         ['<A-0>'] = { accept_index(10) },
     },
 
-    -- snippets = { preset = 'default' | 'luasnip' | 'mini_snippets' | 'vsnip' },
+    snippets = { preset = 'default' },
     sources = {
-        -- TODO: add snippets
-        default = { "ecolog", "lsp", "path", "buffer", "ripgrep", "nerdfont" },
+        default = { "ecolog", "lsp", "path", "snippets", "buffer", "ripgrep", "nerdfont" },
 
         per_filetype = {},  -- custom
 
@@ -102,6 +103,12 @@ require("blink.cmp").setup({
                     },
                 },
             },
+            snippets = {
+                opts = {
+                    friendly_snippets = true,
+                    extended_filetypes = {},
+                },
+            },
             nerdfont = {
                 module = "blink-nerdfont",
                 name = "NerdFont",
@@ -115,10 +122,27 @@ require("blink.cmp").setup({
                 module = 'ecolog.integrations.cmp.blink_cmp',
             },
         },
+
+        -- Function to use when transforming the items before they're returned for all providers
+        -- The default will lower the score for snippets to sort them lower in the list
+        transform_items = function(_, items) return items end,
+
     },
 
-    -- TODO: add native signature: https://cmp.saghen.dev/configuration/signature.html
-    signature = { enabled = false },
+    signature = {
+        enabled = true,
+        trigger = {
+            enabled = true,
+            blocked_trigger_characters = {},
+            blocked_retrigger_characters = {},
+            show_on_trigger_character = true,
+            show_on_insert_on_trigger_character = true,
+        },
+        window = {
+            treesitter_highlighting = true,
+            show_documentation = true,
+        },
+    },
 
     completion = {
         keyword = { range = 'full' },  -- or 'prefix'
@@ -143,7 +167,7 @@ require("blink.cmp").setup({
 
         trigger = {
             show_on_trigger_character = true,
-            show_on_blocked_trigger_characters = { ' ', '\n', '\t' },
+            blocked_trigger_characters = { ' ', '\n', '\t', ':' },
             show_on_insert_on_trigger_character = true,
             show_on_x_blocked_trigger_characters = {
                 "'", '"', '(', '{', '['
@@ -167,6 +191,7 @@ require("blink.cmp").setup({
 
             draw = {
                 treesitter = { 'lsp' },
+                snippet_indicator = '~',
 
                 columns = {
                     { 'item_idx' },

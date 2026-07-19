@@ -2,7 +2,7 @@ local notify = require("notify")
 
 notify.setup({
     level = vim.log.levels.INFO,
-    timeout = 500,
+    timeout = 1000,
     stages = "fade_in_slide_out",
     render = "compact",
 })

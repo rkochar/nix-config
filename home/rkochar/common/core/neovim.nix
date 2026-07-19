@@ -55,6 +55,7 @@ in
             blink-cmp  # completions
             blink-ripgrep-nvim
             blink-nerdfont-nvim
+            friendly-snippets
 
             # Decoration
             gitsigns-nvim
