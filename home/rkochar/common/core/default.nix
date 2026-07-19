@@ -7,6 +7,7 @@
     ...
 }:
 let
+    # TODO: move this to hostSpec?
     platform = if hostSpec.isDarwin then "darwin" else "nixos";
 in
     {

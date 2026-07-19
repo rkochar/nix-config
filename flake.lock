@@ -80,10 +80,10 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1778954247,
-        "narHash": "sha256-CMzlpWKfs5mN4giEo/VOYh8bfyemMYBDHz6x01F9pqg=",
+        "lastModified": 1784471658,
+        "narHash": "sha256-rF3erIVV3gmEyQWxLhelgczJsPNwbipZiAXNnHcTew4=",
         "ref": "new",
-        "rev": "82aaa37242c22b81b8a5a86eeeeb3ff1d3d30852",
+        "rev": "ff6e216463f9c5ee79c5c7d685b7d3c6b326c5ce",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/rkochar/nix-secrets.git"

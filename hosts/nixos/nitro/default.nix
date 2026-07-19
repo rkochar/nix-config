@@ -64,6 +64,7 @@ in
 
   hostSpec = {
     hostName = "nitro";
+    platform = "nixos";
     stateVersion = _stateVersion;
   };
 

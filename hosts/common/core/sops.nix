@@ -24,7 +24,7 @@ in
       sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
       keyFile = "/var/lib/sops-nix/key.txt";
-      generateKey = true;
+      generateKey = true;  # if it does not exist
     };
     # secrets will be output to /run/secrets
     # e.g. /run/secrets/msmtp-password
