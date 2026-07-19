@@ -68,6 +68,8 @@ in
         fastfetch
         eza
         asn
+        btop
+        nix-inspect
         ;
     };
 

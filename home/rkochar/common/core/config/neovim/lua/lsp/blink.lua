@@ -167,14 +167,23 @@ require("blink.cmp").setup({
 
         trigger = {
             show_on_trigger_character = true,
-            blocked_trigger_characters = { ' ', '\n', '\t', ':' },
-            show_on_insert_on_trigger_character = true,
-            show_on_x_blocked_trigger_characters = {
-                "'", '"', '(', '{', '['
-            },
+            show_on_backspace = false,
+            show_on_backspace_after_accept = true,
+            show_on_backspace_in_keyword = false,
+
             show_on_accept_on_trigger_character = true,
-            show_on_x_blocked_trigger_characters = { "'", '"', '(', '{', '[' },
             show_in_snippet = false,  -- https://cmp.saghen.dev/configuration/keymap.html#super-tab
+
+            show_on_blocked_trigger_characters = { ' ', '\n', '\t', ':' },
+            -- show_on_blocked_trigger_characters = function(ctx)
+            --   if vim.bo.filetype == 'markdown' then return { ' ', '\n', '\t', '.', '/', '(', '[' } end
+            --   return { ' ', '\n', '\t' }
+            -- end,
+
+            show_on_insert_on_trigger_character = true,
+
+            -- on top of show_on_blocked_trigger_characters to not trigger
+            show_on_x_blocked_trigger_characters = { "'", '"', '(', '{', '[' },
         },
 
         list = {
