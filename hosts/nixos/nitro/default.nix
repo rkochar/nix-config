@@ -55,6 +55,8 @@ in
       "hosts/common/optional/audio.nix" # pipewire and cli controls
       "hosts/common/optional/gdm.nix"
       "hosts/common/optional/home-manager.nix"
+
+      "modules/common/vortex"
     ])
   ];
 

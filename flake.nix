@@ -1,5 +1,5 @@
 {
-  description = "EmergentMind's Nix-Config Starter";
+  description = "rkochar nix dotfiles";
   outputs =
     {
       self,
@@ -111,7 +111,16 @@
           checks = self.checks.${system};
         }
       );
-    };
+  };
+
+  nixConfig = {
+    extra-substituters = [
+      "https://vortex-nix.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "vortex-nix.cachix.org-1:7+ZVU0umNp8sz1JqZV/bRcbVgemNuNtzN5KiJxihFRY="
+    ];
+  };
 
   inputs = {
     #
@@ -173,5 +182,10 @@
       url = "git+ssh://git@github.com/rkochar/nix-secrets.git?ref=new&shallow=1";
       inputs = { };
     };
+
+    vortex = {
+      url = "github:crowquillx/vortex-nix";
+    };
+
   };
 }
