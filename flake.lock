@@ -170,6 +170,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_4": {
+      "locked": {
+        "lastModified": 1784007870,
+        "narHash": "sha256-djcLt/JJphyNt4eDY9XTly+/WbCK5lqWq9lSgCmJkkQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "18b9261cb3294b6d2a06d03f96872827b8fe2698",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -201,7 +217,8 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "pre-commit-hooks": "pre-commit-hooks",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "vortex": "vortex"
       }
     },
     "sops-nix": {
@@ -221,6 +238,42 @@
       "original": {
         "owner": "mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "vortex": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_4",
+        "vortex-src": "vortex-src"
+      },
+      "locked": {
+        "lastModified": 1785173684,
+        "narHash": "sha256-ThJoyoWcZsQdfrx5g48+YCToftAsNeWubzoB9Nezu8c=",
+        "owner": "crowquillx",
+        "repo": "vortex-nix",
+        "rev": "d71708aed1eb72664de8ac8bb334d885dd509c06",
+        "type": "github"
+      },
+      "original": {
+        "owner": "crowquillx",
+        "repo": "vortex-nix",
+        "type": "github"
+      }
+    },
+    "vortex-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785148555,
+        "narHash": "sha256-d27HT1w5NlQ4eS5OcotlNmimGbhDV3kCz34J/qHxUD8=",
+        "owner": "Nexus-Mods",
+        "repo": "Vortex",
+        "rev": "1b987b71c08e965018c8d41a6b3b38c8fb0e0d2b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Nexus-Mods",
+        "ref": "v2.4.0",
+        "repo": "Vortex",
         "type": "github"
       }
     }
