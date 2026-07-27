@@ -3,9 +3,6 @@
   lib,
   ...
 }:
-let
-  _stateVersion = "25.11";
-in
 {
   imports = lib.flatten [
     #
@@ -49,14 +46,10 @@ in
       # FIXME(starter): add or remove any optional host-level configuration files the host will use
       # The following are for example sake only and are not necessarily required.
       # openssh should move to core
-      "hosts/common/optional/gaming.nix"
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
-      "hosts/common/optional/services/tlp.nix" # laptop power management
       "hosts/common/optional/audio.nix" # pipewire and cli controls
       "hosts/common/optional/gdm.nix"
       "hosts/common/optional/home-manager.nix"
-
-      "modules/common/vortex"
     ])
   ];
 
@@ -64,10 +57,11 @@ in
   # ========== Host Specification ==========
   #
 
+  # FIXME(starter): declare any host-specific hostSpec options. Note that hostSpec options pertaining to
+  # more than one host can be declared in `nix-config/hosts/common/core/` see the default.nix file there
+  # for examples.
   hostSpec = {
     hostName = "nitro";
-    platform = "nixos";
-    stateVersion = _stateVersion;
   };
 
   networking = {
@@ -93,7 +87,7 @@ in
 
       systemd-boot = {
 	enable = true;
-	configurationLimit = lib.mkDefault 5;
+	configurationLimit = lib.mkDefault 9;
 
 	edk2-uefi-shell = {
 	  enable = true;  # Needed to boot into devices in another disk.
@@ -126,24 +120,13 @@ in
     };
   };
 
-  # Host specific hardware config for gaming
-  hardware = {
-    nvidia = {
-      prime = {
-        nvidiaBusId = "PCI:01:00:0";
-        amdgpuBusId = "PCI:06:00:0";
-       };
-    };
-    # The replacement driver RADV, part of Mesa, is enabled by default.
-    # amdgpu.amdvlk = {
-    #   enable = true;
-    #   support32Bit.enable = true;
-    # };
+  hardware.graphics = {
+    enable = true;
   };
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system = {
-    stateVersion = _stateVersion; # Did you read the comment?
+    stateVersion = "25.11"; # Did you read the comment?
     autoUpgrade.enable = false;
   };
 }
