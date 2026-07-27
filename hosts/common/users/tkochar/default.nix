@@ -36,7 +36,7 @@ in
   users.users.${secondUser} = {
     isNormalUser = true;
     hashedPasswordFile = config.sops.secrets.${secretsSubPath}.path;
-    shell = pkgs.bash; # default shell
+    shell = pkgs.zsh; # default shell
     extraGroups = [
       "audio"
       "video"

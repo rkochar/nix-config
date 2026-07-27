@@ -1,7 +1,7 @@
 # FIXME(starter): customize your bash preferences here
 {
   programs.bash = {
-    enable = false;
+    enable = true;
     enableCompletion = true;
     shellAliases = {
     };

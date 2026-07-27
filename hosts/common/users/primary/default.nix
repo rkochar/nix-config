@@ -14,10 +14,9 @@ let
   pubKeys = lib.filesystem.listFilesRecursive ./keys;
 in
 {
-  programs.${hostSpec.shell}.enable = true;
   users.users.${hostSpec.username} = {
     name = hostSpec.username;
-    shell = pkgs.${hostSpec.shell}; # default shell
+    shell = pkgs.bash; # default shell
 
     # These get placed into /etc/ssh/authorized_keys.d/<name> on nixos
     openssh.authorizedKeys.keys = lib.lists.forEach pubKeys (key: builtins.readFile key);
@@ -36,11 +35,10 @@ in
     ];
 
   # No matter what environment we are in we want these tools
-  environment.systemPackages = with pkgs; [
-    just
-    rsync
-    ripgrep
-    neovim
+  programs.zsh.enable = true;
+  environment.systemPackages = [
+    pkgs.just
+    pkgs.rsync
   ];
 }
 # Import the user's personal/home configurations, unless the environment is minimal
