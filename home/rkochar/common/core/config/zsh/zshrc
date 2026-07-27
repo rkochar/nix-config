@@ -1,0 +1,2 @@
+source $FLAKE/home/rkochar/common/core/config/zsh/p10k.zsh
+source $FLAKE/home/rkochar/common/core/config/zsh/fzf.zsh

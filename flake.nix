@@ -1,5 +1,5 @@
 {
-  description = "EmergentMind's Nix-Config Starter";
+  description = "rkochar nix dotfiles";
   outputs =
     {
       self,
@@ -111,7 +111,16 @@
           checks = self.checks.${system};
         }
       );
-    };
+  };
+
+  nixConfig = {
+    extra-substituters = [
+      "https://vortex-nix.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "vortex-nix.cachix.org-1:7+ZVU0umNp8sz1JqZV/bRcbVgemNuNtzN5KiJxihFRY="
+    ];
+  };
 
   inputs = {
     #
@@ -134,11 +143,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
-    nix-darwin = {
-      url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
-    };
+    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
+    # nix-darwin = {
+    #   url = "github:lnl7/nix-darwin";
+    #   inputs.nixpkgs.follows = "nixpkgs-darwin";
+    # };
 
     #
     # ========= Utilities =========
@@ -158,6 +167,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # nixCats
+    # https://github.com/BirdeeHub/nixCats-nvim/blob/main/templates/home-manager/default.nix
+    # https://www.reddit.com/r/NixOS/comments/1imqwgg/how_do_i_actually_use_nixcats/
+    # or a flake like https://github.com/pinksteven/stevenvim/
+    # nixCats.url = "github:BirdeeHub/nixCats-nvim";
+
     #
     # ========= Personal Repositories =========
     #
@@ -167,5 +182,10 @@
       url = "git+ssh://git@github.com/rkochar/nix-secrets.git?ref=new&shallow=1";
       inputs = { };
     };
+
+    vortex = {
+      url = "github:crowquillx/vortex-nix";
+    };
+
   };
 }
